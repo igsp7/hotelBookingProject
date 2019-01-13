@@ -1,4 +1,5 @@
 <?php
+
 if(isset($_POST['SubmitButton'])){
   session_start();
   $username = $_POST['username'];
@@ -12,6 +13,11 @@ if(isset($_POST['SubmitButton'])){
     echo "<div class='alert alert-danger'>Username and Password do not match.</div>";
   }
 }
+
+  include_once("config.php");
+  $result = mysqli_query($mysqli, "SELECT * FROM rooms");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -75,6 +81,7 @@ if(isset($_POST['SubmitButton'])){
   </div>
 
 </nav>
+
 <div class='card flex-sm-row mb-gutter'><img id="roomPhoto" class="card-img-top card-img-sm-left" src="room1.jpg"/>
   <div class="card-body">
     <h4 class="card-title">Basic Room</h4>
@@ -98,6 +105,29 @@ if(isset($_POST['SubmitButton'])){
       </form>
     </div>
   </div>
+
+
+<?php
+while ($res=mysqli_fetch_array($result))
+{
+  $room_number = $res['room_number'];
+  $room_floor= $res['floor'];
+  $room_price= $res['price'];
+  $room_type=$res['room_type'];
+  $beds_number=$res['beds_number'];
+  $bathrooms_number=$res['bathrooms_number'];
+  $room_description = $res['room_description'];
+  $photo =$res['photo'];
+
+
+  echo "<div class='card flex-sm-row mb-gutter'><img id=roomPhoto class='card-img-top card-img-sm-left' src='$photo'/>
+    <div class='card-body'>
+      <h4 class='card-title'>$room_type Room</h4>
+      <p class='card-text'>Room Number: $room_number<br> $room_description <br> Price : $room_price$ <br> Room Number : $room_number <br> Room Floor : $room_floor <br> Number of Beds : $beds_number <br> Number of Bathrooms : $bathrooms_number</p>
+    </div>
+  </div>";
+}
+?>
 </div>
   </body>
 </html>
