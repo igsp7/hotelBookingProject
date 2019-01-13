@@ -50,7 +50,7 @@
   </div>
 
 </nav>
-<div class="card flex-sm-row mb-gutter"><img class="card-img-top card-img-sm-left" src="room1.jpg"/>
+<div class='card flex-sm-row mb-gutter'><img class="card-img-top card-img-sm-left" src="room1.jpg"/>
   <div class="card-body">
     <h4 class="card-title">Basic Room</h4>
     <p class="card-text">1 Bed <br> 1 Bathroom <br> TV </p>

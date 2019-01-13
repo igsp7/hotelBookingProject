@@ -82,7 +82,7 @@ if(isset($_POST['SubmitButton'])){
       <form id=loginForm action="" method='POST'>
         <div class="form-group">
 
-          <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username">
+          <input type="text" class="form-control" name="username" id="username" placeholder="Username">
         </div>
         <div class="form-group">
 
