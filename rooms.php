@@ -154,13 +154,7 @@
     #sitename{
       color: #2073f9;
     }
-    #addRoom{
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-    #updateRoom{
+    #updateRoom,#selectRoom,#deleteRoom,#addRoom{
       margin-top: 20px;
       margin-bottom: 20px;
       margin-left: 20px;
@@ -170,11 +164,9 @@
       margin-left: 10px;
       margin-right: 0px;
     }
-    #deleteForm{
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
+    .btn-toolbar{
+      margin-top: 5px;
+      margin-bottom: 5px;
     }
     #roomPhoto{
       margin: auto;
@@ -185,10 +177,6 @@
     #updatebutton{
       margin-left: 0px;
     }
-
-
-
-
     </style>
 
   </head>
@@ -229,7 +217,7 @@
   <div class="btn-toolbar">
       <button id=addRoomButton class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#addRoomModal" type="Button">Add a new Room</button>
       <button id=rmvRoom class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#selectModal" type="button">Update a Room</button>
-      <button id=rmvRoom class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#selectModal" type="button">Delete a Room</button>
+      <button id=rmvRoom class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#deleteModal" type="button">Delete a Room</button>
   </div>
 </form>
   <?php
