@@ -26,6 +26,14 @@
                 header('LOCATION:reservations.php');
     }
 ?>
+<?php
+    if(isset($_POST['delete'])){
+              $reservationid = $_POST['reservation_id'];
+              $sql = "delete from reservation where reservation_id = '$reservationid'";
+              $resul= $mysqli->query($sql);
+              header('LOCATION:reservations.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -55,7 +63,7 @@
     #sitename{
       color: #2073f9;
     }
-    #loginForm,#updateForm{
+    #loginForm,#updateForm,#deleteForm{
       margin-top: 20px;
       margin-bottom: 20px;
       margin-left: 20px;
@@ -122,7 +130,7 @@
     <div class="btn-toolbar">
         <button id=addButton class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#addModal" type="button">Add a Reservation</button>
         <button id=rmvRoom class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#selectModal" type="button">Update a Reservation</button>
-        <button id=rmvRoom class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#selectModal" type="button">Delete a Reservation</button>
+        <button id=rmvRoom class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#deleteModal" type="button">Delete a Reservation</button>
     </div>
     <div id="tableDiv">
       <table class="table table-bordered">
@@ -214,19 +222,29 @@
         </div>
       </div>
     </div>
-    <!-- <script>
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap4',
-            format: 'yyyy-mm-dd',
-            datesDisabled: ['2019-01-22','2019-01-25']
-        });
-    </script> -->
+
     <div id="deleteModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      ...
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <form id=deleteForm action="" method='POST'>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Select Reservation to Delete</label>
+              <select type="text" name="reservation_id" class="form-control" id="exampleFormControlSelect1">
+                <?php
+                  $resulted = mysqli_query($mysqli, "SELECT reservation_id FROM reservation");
+                  while ($res=mysqli_fetch_array($resulted))
+                  {
+                    $reservationid = $res['reservation_id'];
+                    echo"<option>$reservationid</option>";
+                  }
+                ?>
+              </select>
+
+            </div>
+            <button type="submit" class="btn btn-danger" name="delete" value="delete">Delete Reservation</button>
+          </form>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   </body>
 </html>
