@@ -1,6 +1,22 @@
 <?php
+
+if(isset($_POST['SubmitButton'])){
+  session_start();
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  if($username === "admin" && $password === "admin"){
+    $_SESSION['login'] = true;
+    header('LOCATION:admin.php');
+    die();
+
+  }else{
+    echo "<div class='alert alert-danger'>Username and Password do not match.</div>";
+  }
+}
+
   include_once("config.php");
   $result = mysqli_query($mysqli, "SELECT * FROM rooms");
+
 
 ?>
 <!DOCTYPE html>
@@ -8,12 +24,10 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/postboot.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/postboot.min.js"></script>
 
 
     <title></title>
@@ -23,6 +37,18 @@
     }
     #sitename{
       color: #2073f9;
+    }
+    #roomPhoto{
+      margin: auto;
+      margin-left: 10px;
+      height: 230px;
+      width: 330px;
+    }
+    #loginForm{
+      margin-top: 20px;
+      margin-bottom: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
     }
     </style>
 
@@ -49,12 +75,37 @@
     <form class="form-inline my-2 my-lg-0">
       <div class="btn-toolbar">
           <button id=bookbtn class="btn btn-outline-success my-2 my-sm-0" type="submit">Book Now</button>
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Login As Admin</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#loginModal" type="button">Login As Admin</button>
       </div>
     </form>
   </div>
 
 </nav>
+
+<div class='card flex-sm-row mb-gutter'><img id="roomPhoto" class="card-img-top card-img-sm-left" src="room1.jpg"/>
+  <div class="card-body">
+    <h4 class="card-title">Basic Room</h4>
+    <p class="card-text">1 Bed <br> 1 Bathroom <br> TV </p>
+  </div>
+</div>
+<div class="modal body" id=loginModal tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <form id=loginForm action="" method='POST'>
+        <div class="form-group">
+
+          <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+
+          <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary" name="SubmitButton">Login</button>
+      </form>
+    </div>
+  </div>
+
 
 <?php
 while ($res=mysqli_fetch_array($result))
@@ -77,7 +128,6 @@ while ($res=mysqli_fetch_array($result))
   </div>";
 }
 ?>
-
 </div>
   </body>
 </html>

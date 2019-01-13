@@ -1,9 +1,26 @@
+<?php
+if(isset($_POST['SubmitButton'])){
+  session_start();
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  if($username === "admin" && $password === "admin"){
+    $_SESSION['login'] = true;
+    header('LOCATION:admin.php');
+    die();
+
+  }else{
+    echo "<div class='alert alert-danger'>Username and Password do not match.</div>";
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
     <title></title>
     <style media="screen">
@@ -12,6 +29,9 @@
     }
     #sitename{
       color: #2073f9;
+    }
+    #loginForm{
+      margin:20px;
     }
     </style>
 
@@ -38,7 +58,7 @@
     <form class="form-inline my-2 my-lg-0">
       <div class="btn-toolbar">
           <button id=bookbtn class="btn btn-outline-success my-2 my-sm-0" type="submit">Book Now</button>
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Login As Admin</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#loginModal" type="button">Login As Admin</button>
       </div>
     </form>
   </div>
@@ -55,6 +75,24 @@ Families and business people love us, too. We’ve been hosts to countless colle
   </div>
 </div>
 </div>
+</div>
+<div class="modal body" id=loginModal tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <form id=loginForm action="" method='POST'>
+        <div class="form-group">
+
+          <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+
+          <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary" name="SubmitButton">Login</button>
+      </form>
+    </div>
+  </div>
 </div>
   </body>
 </html>

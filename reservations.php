@@ -34,6 +34,85 @@
               header('LOCATION:reservations.php');
     }
 ?>
+<?php
+    if(isset($_POST['select'])){
+              $reservationid = $_POST['reservation_id'];
+              $resulted = mysqli_query($mysqli, "select reservation.reservation_id,rooms.room_number,users.name,reservation.check_in_date,reservation.check_oute_date
+                                                 from reservation
+                                                 inner join users on reservation.user_id = users.user_id
+                                                 inner join rooms on reservation.room_id = rooms.room_id
+                                                 where reservation_id=$reservationid;");
+              while ($res=mysqli_fetch_array($resulted))
+              {
+                $reservation_id = $res['reservation_id'];
+                $room_number = $res['room_number'];
+                $name = $res['name'];
+                $check_in_date = $res['check_in_date'];
+                $check_out_date = $res['check_oute_date'];
+              }
+
+              echo"<script src='jquery-3.3.1.min.js'></script>
+              <script>$(document).ready(function(){ $('#updateModal').modal('show'); });</script>
+              <div id='updateModal' class='modal fade bd-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-sm'>
+                  <div class='modal-content'>
+                    <form id=updateForm action='' method='POST'>
+                      <div class='form-group'>
+                             <form id=updateReservation action='' method='POST'>
+                             <label for='exampleFormControlSelect1'>Select User ID</label>
+                             <select name = 'user_id'class='form-control' id='exampleFormControlSelect1'>";
+
+                                 $resulted = mysqli_query($mysqli, "SELECT user_id FROM users");
+                                 while ($res=mysqli_fetch_array($resulted))
+                                 {
+                                   $userId = $res['user_id'];
+                                   echo"<option>$userId</option>";
+                                 }
+
+                             echo"</select>
+                             <label for='exampleFormControlSelect1'>Select Room ID</label>
+                             <select type='text' name='room_id' class='form-control' id='exampleFormControlSelect1'>";
+
+                               $resulted = mysqli_query($mysqli, "SELECT room_id FROM rooms");
+                               while ($res=mysqli_fetch_array($resulted))
+                               {
+                                 $room_id = $res['room_id'];
+                                 echo"<option>$room_id</option>";
+                               }
+
+                            echo"</select>
+                            
+                                <div class='form-group'>
+                                  Check In Date:<input type='text' class='form-control' name='check_in_date' id='startDate' placeholder='Check In Date' value='$check_in_date'>
+                                </div>
+                                <div class='form-group'>
+                                  Check Out Date:<input type='text' class='form-control' name='check_out_date' id='endDate' placeholder='Check Out Date' value='$check_out_date'>
+                                </div>
+                                <button id='updatebutton' type='submit' class='btn btn-primary' name='update' value='$reservationid'>Update the Reservation</button>
+                              </form>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>";
+
+
+    }
+?>
+<?php
+    if(isset($_POST['update'])){
+
+      $reservationid = $_POST['update'];
+      $userId = $_POST['user_id'];
+      $roomId = $_POST['room_id'];
+      $check_in_date = $_POST['check_in_date'];
+      $check_out_date = $_POST['check_out_date'];
+
+      $sql = "update reservation set user_id='$userId' ,room_id ='$roomId', check_in_date='$check_in_date', check_oute_date='$check_out_date' where reservation_id = '$reservationid'";
+      $resul= $mysqli->query($sql);
+      header('LOCATION:reservations.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -63,7 +142,7 @@
     #sitename{
       color: #2073f9;
     }
-    #loginForm,#updateForm,#deleteForm{
+    #loginForm,#updateForm,#deleteForm,#addForm,#selectForm{
       margin-top: 20px;
       margin-bottom: 20px;
       margin-left: 20px;
@@ -193,8 +272,8 @@
                 }
                 ?>
               </select>
-                  Check In Date: <input name = "check_in_date" id="startDate" width="276" />
-                  Check Out Date: <input name = "check_out_date" id="endDate" width="276" />
+                  Check In Date: <input name = "check_in_date" id="startDate1" width="276" />
+                  Check Out Date: <input name = "check_out_date" id="endDate1" width="276" />
               <script>
                   var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
                   $('#startDate').datepicker({
@@ -215,6 +294,27 @@
                       }
                   });
               </script>
+              <script>
+                  var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+                  $('#startDate1').datepicker({
+                      uiLibrary: 'bootstrap4',
+                      format: 'yyyy-mm-dd',
+                      iconsLibrary: 'fontawesome',
+                      minDate: today,
+                      maxDate: function () {
+                          return $('#endDate1').val();
+                      }
+                  });
+                  $('#endDate1').datepicker({
+                      uiLibrary: 'bootstrap4',
+                      format: 'yyyy-mm-dd',
+                      iconsLibrary: 'fontawesome',
+                      minDate: function () {
+                          return $('#startDate1').val();
+                      }
+                  });
+              </script>
+
               <br>
               <button id="addButton" type="submit" class="btn btn-success" name="insert" value="insert">Add Reservation</button>
             </div>
@@ -243,6 +343,30 @@
             </div>
             <button type="submit" class="btn btn-danger" name="delete" value="delete">Delete Reservation</button>
           </form>
+        </div>
+      </div>
+    </div>
+    <div id="selectModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <form id=selectForm action="" method='POST'>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Select Reservation to Update</label>
+              <select type="text" name="reservation_id" class="form-control" id="exampleFormControlSelect1">
+                <?php
+                  $resulted = mysqli_query($mysqli, "SELECT reservation_id FROM reservation");
+                  while ($res=mysqli_fetch_array($resulted))
+                  {
+                    $reservationid = $res['reservation_id'];
+                    echo"<option>$reservationid</option>";
+                  }
+
+              echo"</select>
+
+            </div>
+            <button type='submit' class='btn btn-primary' name='select' value='$reservationid' >Select Reservation</button>
+          </form>"
+          ?>
         </div>
       </div>
     </div>
