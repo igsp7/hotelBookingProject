@@ -62,9 +62,6 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <div class="btn-toolbar">
-          <button id=bookbtn class="btn btn-outline-success my-2 my-sm-0" type="button">Book Now</button>
-
-
       </div>
     </form>
     <form action="logout.php" method="POST">
