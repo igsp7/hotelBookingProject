@@ -142,12 +142,6 @@ if(isset($_POST['SubmitButton'])){
 
 </nav>
 
-<div class='card flex-sm-row mb-gutter'><img id="roomPhoto" class="card-img-top card-img-sm-left" src="room1.jpg"/>
-  <div class="card-body">
-    <h4 class="card-title">Basic Room</h4>
-    <p class="card-text">1 Bed <br> 1 Bathroom <br> TV </p>
-  </div>
-</div>
 <div class="modal body" id=loginModal tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
