@@ -5,5 +5,5 @@
   <h2>The Home Page: </h2>
   <img src="images/siteshot2.png" width="450" title="Home Page">
   <h2>The Rooms Page of Admin Panel: </h2>
-  <img src="images/siteshot1.png" width="450" title="Rooms Page Admin Panel">
+  <img style="margin-left: auto; margin-right: auto;" src="images/siteshot1.png" width="450" title="Rooms Page Admin Panel">
 </p>
