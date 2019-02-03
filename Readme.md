@@ -5,7 +5,7 @@
 </p>
 <h2>The Home Page: </h2>
 <p align="center">
-<img src="images/siteshot2.png" width="650" title="Home Page">
+<img src="images/siteshot2.png" width="651" title="Home Page">
 </p>
 <h2>The Rooms Page of Admin Panel: </h2>
 <p align="center">
