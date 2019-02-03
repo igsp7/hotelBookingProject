@@ -10,35 +10,10 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-    <title></title>
-    <style media="screen">
-    #bookbtn {
-      margin-right: 7px;
-    }
-    #sitename{
-      color: #2073f9;
-    }
-    #loginForm{
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-
-    #adminImg{
-
-            width: 30%;
-            margin: auto;
-            margin-top: 25px;
-            margin-left: 500px;
-
-          }
-    </style>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
   </head>
   <body>
 
@@ -64,7 +39,7 @@
       <div class="btn-toolbar">
       </div>
     </form>
-    <form action="logout.php" method="POST">
+    <form action="Scripts/logout.php" method="POST">
       <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" name="logout">Logout</button>
     </form>
   </div>

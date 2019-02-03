@@ -4,32 +4,8 @@
         header('LOCATION:home.php');
         die();
     }
-?>
-<?php
-  include_once("config.php");
-  $result = mysqli_query($mysqli, "SELECT * FROM users");
-?>
-<?php
-    if(isset($_POST['insert'])){
-              $username=$_POST['username'];
-              $userage=$_POST['userage'];
-              $useremail=$_POST['useremail'];
-              $useradress=$_POST['useradress'];
-              $usertelephone=$_POST['usertelephone'];
-
-                $sql = "insert into users (name,age,email,adress,telephone)
-                        values('$username','$userage','$useremail','$useradress','$usertelephone')";
-                $resul= $mysqli->query($sql);
-                header('LOCATION:users.php');
-    }
-?>
-<?php
-    if(isset($_POST['delete'])){
-                $usrid = $_POST['userid'];
-                $sql = "delete from users where user_id = '$usrid'";
-                $resul= $mysqli->query($sql);
-                header('LOCATION:users.php');
-    }
+    include_once("Scripts/config.php");
+    $result = mysqli_query($mysqli, "SELECT * FROM users");
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -42,35 +18,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/postboot.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/postboot.min.js"></script>
-
-    <title></title>
-    <style media="screen">
-    #bookbtn {
-      margin-right: 7px;
-    }
-    #sitename{
-      color: #2073f9;
-    }
-    #loginForm{
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-    #buttonsForm
-    {
-      margin: 5px;
-    }
-    #btn
-    {
-      margin: 5px;
-    }
-
-    </style>
 
   </head>
   <body>
@@ -93,7 +46,7 @@
         <a class="nav-link" href="users.php">Users</a>
       </li>
     </ul>
-    <form action="logout.php" method="POST">
+    <form action="Scripts/logout.php" method="POST">
       <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" name="logout">Logout</button>
     </form>
   </div>
@@ -144,7 +97,7 @@
 <div class="modal body" id=addRoomModal tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
-    <form id=addRoom action="" method='POST'>
+    <form id=addForm action="Scripts/addUser.php" method='POST'>
         <div class="form-group">
           <input type="text" class="form-control" name="username"  placeholder="User's Name">
         </div>
@@ -169,7 +122,7 @@
 <div id="deleteModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
-      <form id=deleteUser action="" method='POST'>
+      <form id=deleteForm action="Scripts/deleteUser.php" method='POST'>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Delete User with ID :</label>
           <select type="text" name="userid" class="form-control" id="exampleFormControlSelect1">

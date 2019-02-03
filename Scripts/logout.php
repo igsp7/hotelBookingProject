@@ -12,6 +12,6 @@
 
 
 
-      header('Refresh: 2; URL = home.php');
+      header('Refresh: 2; URL = ../home.php');
     }
 ?>

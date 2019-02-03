@@ -1,0 +1,69 @@
+#sitename{
+  color: #2073f9;
+}
+#loginForm,#updateForm,#deleteForm,#addForm,#selectForm,#bookNowForm{
+  margin: 20px;
+}
+#buttonsForm
+{
+  margin: 5px;
+}
+#btn
+{
+  margin: 5px;
+}
+
+#sitename{
+  color: #2073f9;
+}
+#updateRoom,#selectRoom,#deleteRoom,#addRoom{
+  margin: 20px;
+}
+button{
+  margin-left: 10px;
+  margin-right: 7px;
+}
+.btn-toolbar{
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#roomPhoto{
+  margin: auto;
+  margin-left: 10px;
+  height: 230px;
+  width: 330px;
+}
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+  color: #b90000;
+}
+#tableDiv{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#addButton,#deleteButton,#updateButton,#boobtn,#loginButton{
+  margin-left: 7px !important;
+}
+#adminImg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+#carouselExampleFade{
+  width: 75%;
+  margin: auto;
+  margin-top: 25px;
+}
+#bookNowButtonDiv{
+  text-align: center;
+  align-self: center;
+  margin-top: 10px;
+}
+#roomPhoto{
+  margin: auto;
+  margin-left: 10px;
+  height: 230px;
+  width: 330px;
+}

@@ -4,114 +4,12 @@
         header('LOCATION:home.php');
         die();
     }
-    include_once("config.php");
+    include_once("Scripts/config.php");
+    include_once("Scripts/selectReservation.php");
     $result = mysqli_query($mysqli, "select reservation.reservation_id,rooms.room_number,users.name,reservation.check_in_date,reservation.check_oute_date
                                      from reservation
                                      inner join users on reservation.user_id = users.user_id
                                      inner join rooms on reservation.room_id = rooms.room_id;");
-
-?>
-<?php
-    if(isset($_POST['insert'])){
-              $userId = $_POST['user_id'];
-              $roomId = $_POST['room_id'];
-              $check_in_date = $_POST['check_in_date'];
-              $check_out_date = $_POST['check_out_date'];
-
-
-
-                $sql = "insert into reservation (user_id,room_id,check_in_date,check_oute_date)
-                        values('$userId','$roomId','$check_in_date','$check_out_date')";
-                $resul= $mysqli->query($sql);
-                header('LOCATION:reservations.php');
-    }
-?>
-<?php
-    if(isset($_POST['delete'])){
-              $reservationid = $_POST['reservation_id'];
-              $sql = "delete from reservation where reservation_id = '$reservationid'";
-              $resul= $mysqli->query($sql);
-              header('LOCATION:reservations.php');
-    }
-?>
-<?php
-    if(isset($_POST['select'])){
-              $reservationid = $_POST['reservation_id'];
-              $resulted = mysqli_query($mysqli, "select reservation.reservation_id,rooms.room_number,users.name,reservation.check_in_date,reservation.check_oute_date
-                                                 from reservation
-                                                 inner join users on reservation.user_id = users.user_id
-                                                 inner join rooms on reservation.room_id = rooms.room_id
-                                                 where reservation_id=$reservationid;");
-              while ($res=mysqli_fetch_array($resulted))
-              {
-                $reservation_id = $res['reservation_id'];
-                $room_number = $res['room_number'];
-                $name = $res['name'];
-                $check_in_date = $res['check_in_date'];
-                $check_out_date = $res['check_oute_date'];
-              }
-
-              echo"<script src='jquery-3.3.1.min.js'></script>
-              <script>$(document).ready(function(){ $('#updateModal').modal('show'); });</script>
-              <div id='updateModal' class='modal fade bd-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'>
-                <div class='modal-dialog modal-sm'>
-                  <div class='modal-content'>
-                    <form id=updateForm action='' method='POST'>
-                      <div class='form-group'>
-                             <form id=updateReservation action='' method='POST'>
-                             <label for='exampleFormControlSelect1'>Select User ID</label>
-                             <select name = 'user_id'class='form-control' id='exampleFormControlSelect1'>";
-
-                                 $resulted = mysqli_query($mysqli, "SELECT user_id FROM users");
-                                 while ($res=mysqli_fetch_array($resulted))
-                                 {
-                                   $userId = $res['user_id'];
-                                   echo"<option>$userId</option>";
-                                 }
-
-                             echo"</select>
-                             <label for='exampleFormControlSelect1'>Select Room ID</label>
-                             <select type='text' name='room_id' class='form-control' id='exampleFormControlSelect1'>";
-
-                               $resulted = mysqli_query($mysqli, "SELECT room_id FROM rooms");
-                               while ($res=mysqli_fetch_array($resulted))
-                               {
-                                 $room_id = $res['room_id'];
-                                 echo"<option>$room_id</option>";
-                               }
-
-                            echo"</select>
-
-                                <div class='form-group'>
-                                  Check In Date:<input type='text' class='form-control' name='check_in_date' id='startDate' placeholder='Check In Date' value='$check_in_date'>
-                                </div>
-                                <div class='form-group'>
-                                  Check Out Date:<input type='text' class='form-control' name='check_out_date' id='endDate' placeholder='Check Out Date' value='$check_out_date'>
-                                </div>
-                                <button id='updatebutton' type='submit' class='btn btn-primary' name='update' value='$reservationid'>Update the Reservation</button>
-                              </form>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>";
-
-
-    }
-?>
-<?php
-    if(isset($_POST['update'])){
-
-      $reservationid = $_POST['update'];
-      $userId = $_POST['user_id'];
-      $roomId = $_POST['room_id'];
-      $check_in_date = $_POST['check_in_date'];
-      $check_out_date = $_POST['check_out_date'];
-
-      $sql = "update reservation set user_id='$userId' ,room_id ='$roomId', check_in_date='$check_in_date', check_oute_date='$check_out_date' where reservation_id = '$reservationid'";
-      $resul= $mysqli->query($sql);
-      header('LOCATION:reservations.php');
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -124,6 +22,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/postboot.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -135,43 +34,7 @@
     <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
     <title></title>
-    <style media="screen">
-    #bookbtn {
-      margin-right: 7px;
-    }
-    #sitename{
-      color: #2073f9;
-    }
-    #loginForm,#updateForm,#deleteForm,#addForm,#selectForm{
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-    .datepicker table tr td.disabled,
-    .datepicker table tr td.disabled:hover {
-      color: #b90000;
-    }
-    .btn-toolbar{
-      margin-left: 10px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-    #bookbtn {
-      margin-right: 0px;
-    }
-    #tableDiv{
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-    button{
-      margin-left: 10px;
-      margin-right: 0px;
-    }
-    #addButton{
-      margin-left: 0px;
-    }
-    </style>
+
 
   </head>
   <body>
@@ -193,7 +56,7 @@
             <a class="nav-link" href="users.php">Users</a>
           </li>
         </ul>
-        <form action="logout.php" method="POST">
+        <form action="Scripts/logout.php" method="POST">
           <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" name="logout">Logout</button>
         </form>
       </div>
@@ -201,8 +64,8 @@
 
     <div class="btn-toolbar">
         <button id=addButton class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#addModal" type="button">Add a Reservation</button>
-        <button id=rmvRoom class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#selectModal" type="button">Update a Reservation</button>
-        <button id=rmvRoom class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#deleteModal" type="button">Delete a Reservation</button>
+        <button id=deleteButton class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#selectModal" type="button">Update a Reservation</button>
+        <button id=updateButton class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#deleteModal" type="button">Delete a Reservation</button>
     </div>
     <div id="tableDiv">
       <table class="table table-bordered">
@@ -241,7 +104,7 @@
     <div id="addModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
-          <form action="" id="addForm" method="post">
+          <form action="Scripts/addReservation.php" id="addForm" method="post">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Select User ID</label>
               <select name = "user_id"class="form-control" id="exampleFormControlSelect1">
@@ -319,7 +182,7 @@
     <div id="deleteModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
-          <form id=deleteForm action="" method='POST'>
+          <form id=deleteForm action="Scripts/deleteReservation.php" method='POST'>
             <div class="form-group">
               <label for="exampleFormControlSelect1">Select Reservation to Delete</label>
               <select type="text" name="reservation_id" class="form-control" id="exampleFormControlSelect1">

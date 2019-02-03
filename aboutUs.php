@@ -1,66 +1,6 @@
 <?php
-if(isset($_POST['SubmitButton'])){
-  session_start();
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  if($username === "admin" && $password === "admin"){
-    $_SESSION['login'] = true;
-    header('LOCATION:admin.php');
-    die();
-
-  }else{
-    echo "<div class='alert alert-danger'>Username and Password do not match.</div>";
-  }
-}
-?>
-<?php
-    include_once("config.php");
-    if(isset($_POST['bookNow'])){
-      $user_name=$_POST['name'];
-      $user_age=$_POST['age'];
-      $user_email=$_POST['email'];
-      $user_adress=$_POST['address'];
-      $user_telephone=$_POST['phone'];
-      $room_number = $_POST['room_number'];
-      $check_in_date = $_POST['check_in_date'];
-      $check_out_date = $_POST['check_out_date'];
-
-      $userResult =mysqli_query($mysqli, "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1");
-      $row=mysqli_fetch_row($userResult);
-      $user_id = $row[0] + 1;
-
-      $roomResult =mysqli_query($mysqli, "SELECT room_id FROM rooms where room_number =$room_number ");
-      $row1=mysqli_fetch_row($roomResult);
-      $room_id = $row1[0];
-
-
-      $sql = "insert into users (name,age,adress,email,telephone)
-                        values('$user_name','$user_age','$user_adress','$user_email','$user_telephone')";
-      $resul= $mysqli->query($sql);
-                $sql1 = "insert into reservation (user_id,room_id,check_in_date,check_oute_date)
-                        values('$user_id','$room_id','$check_in_date','$check_out_date')";
-                          $resul1= $mysqli->query($sql1);
-                echo"<script src='jquery-3.3.1.min.js'></script>
-                <script>$(document).ready(function(){ $('#successModal').modal('show'); });</script>
-                <div id='successModal' class='modal' tabindex=''-1' role='dialog'>
-                      <div class='modal-dialog' role='document'>
-                        <div class='modal-content'>
-                          <div class='modal-header'>
-                            <h5 class='modal-title'>Successfull Booking</h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                              <span aria-hidden='true'>&times;</span>
-                            </button>
-                          </div>
-                          <div class='modal-body'>
-                            <p>Your room is waiting for you.</p>
-                          </div>
-                          <div class='modal-footer'>
-                            <button type='button' class='btn btn-success' data-dismiss='modal'>OK</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>";
-    }
+    include_once("Scripts/config.php");
+    include_once("Scripts/bookNow.php");
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -73,29 +13,16 @@ if(isset($_POST['SubmitButton'])){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/postboot.min.css"/>
-
+    <link rel="stylesheet" href="css/style.css"/>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/postboot.min.js"></script>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
     <title></title>
-    <style media="screen">
-    #bookbtn {
-      margin-right: 7px;
-    }
-    #sitename{
-      color: #2073f9;
-    }
-    #loginForm,#bookNowForm{
-      margin:20px;
-    }
-    </style>
-
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -119,7 +46,7 @@ if(isset($_POST['SubmitButton'])){
     <form class="form-inline my-2 my-lg-0">
       <div class="btn-toolbar">
           <button id=bookbtn  class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#bookNowModal"type="button">Book Now</button>
-          <button class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#loginModal" type="button">Login As Admin</button>
+          <button id=loginButton class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#loginModal" type="button">Login As Admin</button>
       </div>
     </form>
   </div>
@@ -141,7 +68,7 @@ Families and business people love us, too. We’ve been hosts to countless colle
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
 
-      <form id=loginForm action="" method='POST'>
+      <form id=loginForm action="Scripts/login.php" method='POST'>
         <div class="form-group">
 
           <input type="text" class="form-control" name="username" id="username" placeholder="Username">
